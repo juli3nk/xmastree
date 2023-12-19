@@ -2,7 +2,7 @@
 #include <Preferences.h>
 
 #include "animations.h"
-#include "leds.h"
+#include "Leds.h"
 
 int _status = 0;
 

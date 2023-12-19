@@ -10,6 +10,8 @@ void setupServer();
 void handleAPIClient();
 
 void handleNotFound();
+void handleRoot();
+void handleFileList();
 void handleOn();
 //void handleOff();
 void handleStatus();

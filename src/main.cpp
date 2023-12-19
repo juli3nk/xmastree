@@ -9,7 +9,7 @@ WiFiManager wifiManager;
 
 void setup() {
   // Serial for debugging
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.setDebugOutput(true);
   delay(3000);
   Serial.println("\n Starting");

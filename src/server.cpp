@@ -1,9 +1,12 @@
 #include <ArduinoJson.h>
 #include <Preferences.h>
 #include <WebServer.h>
+#include "SPIFFS.h"
 
 #include "animations.h"
 #include "server.h"
+
+#define FORMAT_SPIFFS_IF_FAILED true
 
 // JSON data buffer
 StaticJsonDocument<250> jsonDocument;
@@ -12,12 +15,25 @@ char buffer[250];
 // Web server running on port 80
 WebServer Server(API_PORT);
 
-// Setup
+void initSPIFFS() {
+  if (!SPIFFS.begin(true)) {
+    Serial.println("An error has occurred while mounting SPIFFS");
+  } else {
+    Serial.println("SPIFFS mounted successfully");
+  }
+}
+
 void setupServer() {
   Serial.printf("Listening on TCP port: %u\n", API_PORT);
 
+  initSPIFFS();
+
   // API Server event hooks
   Server.onNotFound(handleNotFound);
+
+  Server.enableCORS();
+
+  Server.on("/", HTTP_GET, handleRoot);
   Server.on("/on", HTTP_GET, handleOn);
   //Server.on("/off", HTTP_GET, handleOff);
   Server.on("/status", HTTP_GET, handleStatus);
@@ -49,6 +65,12 @@ void sendFailReply(const char* msg) {
 
 void handleNotFound() {
     Server.send(404, "text/plain", "Page Not Found");
+}
+
+void handleRoot() {
+  File file = SPIFFS.open("/index.html", "r");
+  Server.streamFile(file, "text/html");
+  file.close();
 }
 
 void handleOn() {

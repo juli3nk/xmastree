@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "leds.h"
+#include "Leds.h"
 
 Leds::Leds() {
   // out pin for led strip

@@ -1,0 +1,41 @@
+{
+	"name": "PlatformIO in Devcontainer",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "."
+	},
+	"mounts": [
+		"type=bind,source=/dev,target=/dev"
+	],
+	"runArgs": [
+		"--privileged"
+	],
+	"forwardPorts": [
+		8008
+	],
+	"customizations": {
+		"vscode": {
+			"settings": { 
+				"terminal.integrated.profiles.linux": {
+					"bash (login)": {
+					  "path": "bash",
+					  "args": ["-l"]
+					}
+				},
+				"terminal.integrated.defaultProfile.windows": "bash (login)",
+				"platformio-ide.pioHomeServerHttpHost": "0.0.0.0",
+				"platformio-ide.pioHomeServerHttpPort": 8008,
+				"platformio-ide.disablePIOHomeStartup": true
+			},
+			"extensions": [
+				"ms-vscode.cpptools",
+				"platformio.platformio-ide"
+			]
+		}
+	},
+	"remoteUser": "vscode",
+	"workspaceFolder": "/home/vscode/Documents/PlatformIO/Projects",
+	"workspaceMount": "type=bind,source=${localWorkspaceFolder},target=${containerWorkspaceFolder}",
+	"postAttachCommand": "sudo service udev restart",
+	"postCreateCommand": "pio upgrade"
+}

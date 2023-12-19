@@ -15,7 +15,6 @@ private:
 public:
     Leds();
 
-    //static Led& all();
     CRGB* all();
     CRGB get(int index);
     void set(int index, CRGB val);
